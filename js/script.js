@@ -1,7 +1,7 @@
 // Navigation Toggle
 const navToggle = document.getElementById('nav-toggle');
 const navMenu = document.getElementById('nav-menu');
-const navLinks = document.querySelectorAll('.nav-link');
+const navLinks = document.querySelectorAll('.nav-menu .nav-link'); // Only get menu links, not logo
 
 navToggle.addEventListener('click', () => {
     navMenu.classList.toggle('active');
@@ -11,19 +11,14 @@ navToggle.addEventListener('click', () => {
 
 // Close mobile menu when clicking on a nav link
 navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-        // Only handle clicks on actual navigation links, not logo
-        if (link.getAttribute('href').startsWith('#')) {
-            navMenu.classList.remove('active');
-            navToggle.classList.remove('active');
-            navToggle.setAttribute('aria-expanded', 'false');
-            
-            // Update active state - only for section links, not logo
-            if (link.getAttribute('href') !== '#') {
-                navLinks.forEach(nav => nav.classList.remove('active'));
-                link.classList.add('active');
-            }
-        }
+    link.addEventListener('click', () => {
+        navMenu.classList.remove('active');
+        navToggle.classList.remove('active');
+        navToggle.setAttribute('aria-expanded', 'false');
+        
+        // Update active state
+        navLinks.forEach(nav => nav.classList.remove('active'));
+        link.classList.add('active');
     });
 });
 
@@ -33,7 +28,7 @@ function updateActiveNavLink() {
     
     navLinks.forEach(link => {
         const section = document.querySelector(link.getAttribute('href'));
-        if (section && link.getAttribute('href') !== '#home') {
+        if (section) {
             if (
                 section.offsetTop <= fromTop &&
                 section.offsetTop + section.offsetHeight > fromTop
@@ -46,7 +41,7 @@ function updateActiveNavLink() {
     
     // Handle home section separately
     const homeSection = document.querySelector('#home');
-    const homeLink = document.querySelector('a[href="#home"]');
+    const homeLink = document.querySelector('.nav-menu a[href="#home"]');
     if (homeSection && homeLink) {
         if (window.scrollY < 100) {
             navLinks.forEach(nav => nav.classList.remove('active'));
@@ -70,8 +65,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 behavior: 'smooth'
             });
             
-            // Update active state for navigation links only (not logo)
-            if (this.classList.contains('nav-link') && targetId !== '#home') {
+            // Update active state for navigation menu links only
+            if (this.classList.contains('nav-link') && this.closest('.nav-menu')) {
                 navLinks.forEach(nav => nav.classList.remove('active'));
                 this.classList.add('active');
             }
@@ -293,7 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
     new StatsCarousel();
     
     // Set initial active state for home link
-    const homeLink = document.querySelector('a[href="#home"]');
+    const homeLink = document.querySelector('.nav-menu a[href="#home"]');
     if (homeLink && window.scrollY < 100) {
         navLinks.forEach(nav => nav.classList.remove('active'));
         homeLink.classList.add('active');

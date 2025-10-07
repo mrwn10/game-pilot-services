@@ -196,6 +196,11 @@ body {
     height: 80px;
 }
 
+.nav-logo {
+    display: flex;
+    align-items: center;
+}
+
 .nav-logo a {
     font-size: 1.5rem;
     font-weight: bold;
@@ -204,6 +209,11 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
+    transition: all 0.3s ease;
+}
+
+.nav-logo a:hover {
+    color: var(--secondary);
 }
 
 .logo-img {
@@ -232,6 +242,7 @@ body {
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 1px;
+    padding: 8px 0;
 }
 
 .nav-link:hover,
@@ -244,7 +255,7 @@ body {
     position: absolute;
     width: 0;
     height: 2px;
-    bottom: -5px;
+    bottom: 0;
     left: 0;
     background: linear-gradient(45deg, var(--primary), var(--secondary));
     transition: width 0.3s ease;
@@ -253,6 +264,11 @@ body {
 .nav-link:hover::after,
 .nav-link.active::after {
     width: 100%;
+}
+
+/* Logo should not have underline effect */
+.nav-logo a::after {
+    display: none;
 }
 
 .nav-toggle {
